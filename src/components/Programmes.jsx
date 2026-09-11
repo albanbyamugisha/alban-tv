@@ -1,64 +1,44 @@
-const shows = [
-  {
-    number: '01',
-    eyebrow: 'PRACTICAL LEARNING',
-    title: (
-      <>
-        Level Up
-        <br /> with Alban
-      </>
-    ),
-    body: 'Take one idea and turn it into an action you can try. Clear examples, small steps and room to learn.',
-    meta: 'Proposed: Tuesday · 19:00 EAT\n20 minutes',
-  },
-  {
-    number: '02',
-    eyebrow: 'LOCAL STORIES',
-    title: (
-      <>
-        Kampala
-        <br /> Voices
-      </>
-    ),
-    body: 'Meet the people behind the work, creativity and everyday stories of Kampala.',
-    meta: 'Proposed: Thursday · 19:00 EAT\n25 minutes',
-  },
-  {
-    number: '03',
-    eyebrow: 'THOUGHTFUL CONVERSATION',
-    title: (
-      <>
-        The Just Level
-        <br /> Conversation
-      </>
-    ),
-    body: 'Explore beginnings, choices and lessons through a focused conversation with Alban.',
-    meta: 'Proposed: Saturday · 19:00 EAT\n45 minutes',
-  },
-]
+import { programmes } from '../content.js'
 
 function Programmes() {
   return (
     <section id="programmes" className="section">
       <div className="section-head">
         <div>
-          <p className="eyebrow">IN DEVELOPMENT</p>
-          <h2>Three ways to level up.</h2>
+          <p className="eyebrow">{programmes.eyebrow}</p>
+          <h2>{programmes.title}</h2>
         </div>
         <p>
-          Our proposed programme lineup.
-          <br />
-          Launch dates will be announced on our channels.
+          {programmes.description.map((line) => (
+            <span key={line}>
+              {line}
+              <br />
+            </span>
+          ))}
         </p>
       </div>
       <div className="shows">
-        {shows.map((show) => (
+        {programmes.shows.map((show) => (
           <article key={show.number}>
             <span className="number">{show.number}</span>
             <p className="eyebrow">{show.eyebrow}</p>
-            <h3>{show.title}</h3>
+            <h3>
+              {show.title.map((line) => (
+                <span key={line}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+            </h3>
             <p>{show.body}</p>
-            <div className="show-meta">{show.meta}</div>
+            <div className="show-meta">
+              {show.meta.map((line) => (
+                <span key={line}>
+                  {line}
+                  <br />
+                </span>
+              ))}
+            </div>
           </article>
         ))}
       </div>

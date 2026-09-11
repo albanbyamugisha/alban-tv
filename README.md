@@ -27,9 +27,14 @@ npm run lint     # run ESLint
 
 ```
 public/                 # static assets served at the root
-  images/               # logo.png, alban.png, trailer-poster.png
-  videos/               # trailer.mp4
+  images/               # logo, alban, trailer-poster (PNG + WebP)
+  videos/               # trailer.mp4, trailer.vtt (captions)
+  robots.txt
+  sitemap.xml
 src/
+  content.js            # all site copy, single place to edit
+  hooks/
+    useScrollSpy.js     # highlights the active nav section
   components/           # one component per site section
     Header.jsx
     Hero.jsx
@@ -37,7 +42,7 @@ src/
     Watch.jsx           # trailer section
     Programmes.jsx      # shows lineup
     Founder.jsx
-    Contact.jsx
+    Contact.jsx         # contact form + details
     Footer.jsx
   App.jsx               # composes all sections
   main.jsx              # React entry point
@@ -46,9 +51,8 @@ src/
 
 ## Editing content
 
-Most copy lives directly in the section components. Repeated items are data-driven:
+Almost all copy lives in `src/content.js` — headlines, shows, socials, contact details, form labels. Components render from it, so non-developers can edit one file without touching JSX.
 
-- **Programmes** — `shows` array in `src/components/Programmes.jsx`
-- **Socials** — `socials` array in `src/components/Contact.jsx`
+Media files are referenced from `public/` (e.g. `/images/alban.png`, `/videos/trailer.mp4`). Images ship as WebP with PNG fallback via `<picture>`.
 
-Media files are referenced from `public/` (e.g. `/images/alban.png`, `/videos/trailer.mp4`).
+> **After deploying**, replace the placeholder domain `albantv.example` in `public/sitemap.xml`/`public/robots.txt`, make `og:image`/`og:url` absolute URLs, set the real `uploadDate` in the JSON-LD block in `index.html`, and replace the placeholder cues in `public/videos/trailer.vtt` with the trailer's actual transcript.

@@ -1,28 +1,33 @@
+import { watch } from '../content.js'
+
 function Watch() {
   return (
     <section id="watch" className="section watch">
       <div className="section-head">
         <div>
-          <p className="eyebrow">WELCOME TO THE CHANNEL</p>
-          <h2>This is ALBAN TV.</h2>
+          <p className="eyebrow">{watch.eyebrow}</p>
+          <h2>{watch.title}</h2>
         </div>
         <p>
-          Meet the vision behind the channel.
-          <br />
-          36 seconds. One introduction.
+          {watch.description.map((line) => (
+            <span key={line}>
+              {line}
+              <br />
+            </span>
+          ))}
         </p>
       </div>
       <video
         controls
         playsInline
         preload="metadata"
-        poster="/images/trailer-poster.png"
-        aria-label="ALBAN TV channel trailer"
-        src="/videos/trailer.mp4"
-      ></video>
-      <p className="video-note">
-        Featuring Alban Byamugisha. Instrumental music with on-screen text.
-      </p>
+        poster={watch.video.poster}
+        aria-label={watch.video.ariaLabel}
+        src={watch.video.src}
+      >
+        <track kind="captions" srcLang="en" label="English" src={watch.video.captions} />
+      </video>
+      <p className="video-note">{watch.note}</p>
     </section>
   )
 }

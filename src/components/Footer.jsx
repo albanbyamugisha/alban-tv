@@ -1,9 +1,11 @@
+import { footer } from '../content.js'
+
 function Footer() {
   return (
     <footer>
-      <span>ALBAN TV — Just Level</span>
-      <a href="#">Back to top ↑</a>
-      <span>Kampala, Uganda</span>
+      <span>{footer.name}</span>
+      <a href="#">{footer.backToTop}</a>
+      <span>{footer.location}</span>
     </footer>
   )
 }

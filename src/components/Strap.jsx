@@ -1,11 +1,11 @@
+import { strap } from '../content.js'
+
 function Strap() {
   return (
     <div className="strap">
-      <span>ALBAN TV</span>
-      <span>IDEAS</span>
-      <span>PEOPLE</span>
-      <span>CONVERSATION</span>
-      <span>JUST LEVEL</span>
+      {strap.map((item) => (
+        <span key={item}>{item}</span>
+      ))}
     </div>
   )
 }

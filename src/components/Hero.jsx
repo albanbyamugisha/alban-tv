@@ -1,33 +1,41 @@
+import { hero } from '../content.js'
+
 function Hero() {
   return (
     <section className="hero">
       <div className="hero-copy">
-        <p className="eyebrow">FROM KAMPALA, UGANDA</p>
+        <p className="eyebrow">{hero.eyebrow}</p>
         <h1>
-          Just
+          {hero.title[0]}
           <br />
-          <em>Level.</em>
+          <em>{hero.title[1]}</em>
         </h1>
         <p className="lede">
-          Practical ideas. Local stories.
-          <br />
-          Conversations worth joining.
+          {hero.lede.map((line) => (
+            <span key={line}>
+              {line}
+              <br />
+            </span>
+          ))}
         </p>
         <div className="actions">
           <a className="button" href="#watch">
-            Watch the trailer <span aria-hidden="true">▶</span>
+            {hero.watchLabel} <span aria-hidden="true">▶</span>
           </a>
           <a className="text-link" href="#programmes">
-            Explore what's coming
+            {hero.exploreLabel}
           </a>
         </div>
       </div>
       <div className="portrait">
         <div className="orbit" aria-hidden="true"></div>
-        <img src="/images/alban.png" alt="Alban Byamugisha, founder of ALBAN TV" />
+        <picture>
+          <source srcSet={hero.portrait.srcWebp} type="image/webp" />
+          <img src={hero.portrait.src} alt={hero.portrait.alt} fetchPriority="high" decoding="async" />
+        </picture>
         <div className="portrait-caption">
-          <strong>ALBAN BYAMUGISHA</strong>
-          <span>CEO &amp; Founder</span>
+          <strong>{hero.portrait.caption}</strong>
+          <span>{hero.portrait.captionSub}</span>
         </div>
       </div>
     </section>
