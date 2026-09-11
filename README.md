@@ -181,18 +181,157 @@ alban-tv/
 
 ---
 
-## Putting it online (when you're ready)
+## Putting it online — free with GitHub Pages
 
-1. Run `npm run build`. This creates a `dist/` folder — that's your finished site.
-2. Upload the `dist/` folder to any web host (Netlify, Vercel, GitHub Pages — all have free options).
-3. Before going live, fix these placeholders (they're marked in the files):
+GitHub Pages hosts your finished site for free, straight from your GitHub repository. This guide uses the **automatic method** (GitHub Actions), so after the first setup, every time you push a change the site updates by itself.
+
+Project assets already use `import.meta.env.BASE_URL`, so they keep working no matter where the site is hosted.
+
+### Before you start
+
+- A free GitHub account (sign up at <https://github.com>).
+- The project on your computer, and the `dist` build working locally (`npm run build`).
+- **Important:** this guide assumes your repository is a **project repository** (any name, e.g. `alban-tv`). Its site will live at `https://<your-username>.github.io/<repo-name>/` — not at the root. (Only if your repo is named exactly `<username>.github.io` does it become a "user site" at the root.)
+
+### Step 1 — Configure Vite's "base" path
+
+Because the site lives in a sub-folder (`/repo-name/`), Vite needs to know that. Open `vite.config.js` and make it look like this (use your **exact repository name**):
+
+```js
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+
+// https://vite.dev/config/
+export default defineConfig({
+  base: '/alban-tv/',   // ⬅️ your repository name, with slashes, e.g. '/alban-tv/'
+  plugins: [react()],
+})
+```
+
+> **User site?** If your repo name is exactly `yourusername.github.io`, use `base: '/'` instead.
+>
+> **Heads up:** with a base set, the local dev server moves to `http://localhost:5173/alban-tv/`. That's normal.
+
+### Step 2 — Create the GitHub Actions "workflow"
+
+A **workflow** is a small file that tells GitHub to build the site and publish it every time you push. Create these folders and file inside your project:
+
+```
+.github/
+└── workflows/
+    └── deploy.yml
+```
+
+> On Windows, in the terminal: `mkdir .github\workflows` — then create the file with a text editor. Or just create the folders in your file explorer (VS Code does this automatically if you type the full path).
+
+Paste this into `.github/workflows/deploy.yml`:
+
+```yaml
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+```
+
+Don't worry about what each line means — GitHub runs this file for you. It installs the packages, builds the site, and puts the result online.
+
+### Step 3 — Push the project to GitHub (first time)
+
+1. On github.com, click **New repository**, give it the same name as your repo folder (e.g. `alban-tv`), and create it (do **not** tick "Add a README").
+2. In your terminal, still inside the project folder, connect your local project:
+
+```
+git init
+git add .
+git commit -m "Initial commit"
+git branch -M main
+git remote add origin https://github.com/<your-username>/<repo-name>.git
+git push -u origin main
+```
+
+Replace `<your-username>` and `<repo-name>`. If git asks for a login, use your GitHub username as the username and a **Personal Access Token** as the password (GitHub no longer accepts your normal password). You can create a token at **GitHub → Settings → Developer settings → Personal access tokens**.
+
+> Already on the project? Just `git add . && git commit -m "..." && git push`.
+
+### Step 4 — Turn on GitHub Pages
+
+1. On github.com, open the repository → **Settings** → **Pages** (left menu).
+2. Under **Build and deployment**, make sure **Source** = **GitHub Actions**.
+3. Go to the **Actions** tab. You should see a run called "Deploy to GitHub Pages" — click it and wait until the green check appears (first time takes a few minutes).
+4. When it's done, your site is live at:
+
+```
+https://<your-username>.github.io/<repo-name>/
+```
+
+Remember to hard-refresh (`Ctrl + Shift + R`) if you had the page open earlier.
+
+### Step 5 — Updating the site later
+
+From now on, every time you push to `main`, the site rebuilds and updates automatically. That's it — edit `src/content.js`, commit, push.
+
+### Manual alternative (no workflow file)
+
+If you'd rather not use Actions:
+
+1. `npm run build`
+2. Copy everything from the `dist/` folder into a new repository branch called `gh-pages`.
+3. In **Settings → Pages**, set Source = **Deploy from a branch** and choose `gh-pages / (root)`.
+
+### Before you go public — fix these placeholders
 
 | File | What to change |
 | --- | --- |
-| `public/sitemap.xml` + `public/robots.txt` | Replace `albantv.example` with your real domain |
-| `index.html` (Open Graph tags) | Change `og:image` to a full web address (e.g. `https://your-site.com/images/trailer-poster.png`) |
+| `sitemap.xml` + `robots.txt` | Replace `albantv.example` with your real address, e.g. `https://<your-username>.github.io/<repo-name>/sitemap.xml` |
+| `index.html` (Open Graph tags) | Change `og:image` (and add `og:url`) to full web addresses like `https://<your-username>.github.io/<repo-name>/images/trailer-poster.png` |
 | `index.html` (JSON-LD block) | Set the real `uploadDate` of the trailer |
 | `public/videos/trailer.vtt` | Replace the placeholder cues with the trailer's real transcript |
+
+### GitHub Pages troubleshooting
+
+**Blank page or missing images/video** — The `base` in `vite.config.js` must match your repository name exactly (`/repo-name/`, trailing slash included). Then hard-refresh.
+
+**The site isn't updating after a push** — Check the **Actions** tab; if the last run is red, click it and read the failing step. Common cause: `npm ci` fails if `package-lock.json` isn't committed — make sure you ran `git add .` (adds everything).
+
+**"Permission denied" / push failed** — Likely an authentication token issue (see Step 3) or you don't own that repository.
+
+**404 page** — If the URL or repo name was typed wrong, or Pages was switched to "Deploy from a branch" while no `gh-pages` branch exists yet. Double-check **Settings → Pages → Source**.
 
 ---
 

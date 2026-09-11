@@ -1,4 +1,4 @@
-import { nav, sectionIds, site } from '../content.js'
+import { asset, nav, sectionIds, site } from '../content.js'
 import useScrollSpy from '../hooks/useScrollSpy.js'
 
 function Header() {
@@ -8,8 +8,8 @@ function Header() {
     <header>
       <a href="#" aria-label="ALBAN TV home">
         <picture>
-          <source srcSet="/images/logo.webp" type="image/webp" />
-          <img className="logo" src="/images/logo.png" alt="ALBAN TV — Just Level" decoding="async" />
+          <source srcSet={asset('images/logo.webp')} type="image/webp" />
+          <img className="logo" src={asset('images/logo.png')} alt="ALBAN TV — Just Level" decoding="async" />
         </picture>
       </a>
       <nav aria-label="Main navigation">

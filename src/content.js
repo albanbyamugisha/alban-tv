@@ -1,3 +1,5 @@
+export const asset = (path) => `${import.meta.env.BASE_URL}${path}`
+
 export const site = {
   name: 'ALBAN TV',
   tagline: 'Just Level',
@@ -20,8 +22,8 @@ export const hero = {
   watchLabel: 'Watch the trailer',
   exploreLabel: "Explore what's coming",
   portrait: {
-    src: '/images/alban.png',
-    srcWebp: '/images/alban.webp',
+    src: asset('images/alban.png'),
+    srcWebp: asset('images/alban.webp'),
     alt: 'Alban Byamugisha, founder of ALBAN TV',
     caption: 'ALBAN BYAMUGISHA',
     captionSub: 'CEO & Founder',
@@ -38,9 +40,9 @@ export const watch = {
     '36 seconds. One introduction.',
   ],
   video: {
-    src: '/videos/trailer.mp4',
-    poster: '/images/trailer-poster.png',
-    captions: '/videos/trailer.vtt',
+    src: asset('videos/trailer.mp4'),
+    poster: asset('images/trailer-poster.png'),
+    captions: asset('videos/trailer.vtt'),
     ariaLabel: 'ALBAN TV channel trailer',
   },
   note: 'Featuring Alban Byamugisha. Instrumental music with on-screen text.',
