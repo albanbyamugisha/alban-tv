@@ -84,8 +84,21 @@ function Contact() {
       <p>{contact.location}</p>
       <div className="socials">
         {contact.socials.map((social) => (
-          <a key={social.label} href={social.href}>
-            {social.label} <span>{social.handle}</span>
+          <a
+            key={social.label}
+            href={social.href}
+            title={`${social.label} ${social.handle}`}
+          >
+            <svg
+              className="social-icon"
+              viewBox="0 0 24 24"
+              style={{ color: social.color }}
+              aria-hidden="true"
+              focusable="false"
+            >
+              <path fill="currentColor" d={social.icon} />
+            </svg>
+            <span>{social.label}</span>
           </a>
         ))}
       </div>

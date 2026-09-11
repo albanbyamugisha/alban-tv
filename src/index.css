@@ -392,6 +392,30 @@ h3 {
   gap: 20px;
 }
 
+.socials a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.socials a:hover {
+  text-decoration: none;
+  color: var(--gold);
+}
+
+.social-icon {
+  display: block;
+  width: 30px;
+  height: 30px;
+  transition: color 0.2s;
+}
+
+.socials a:hover .social-icon {
+  color: var(--gold);
+}
+
 .socials span {
   display: block;
   color: var(--muted);
