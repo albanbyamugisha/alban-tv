@@ -45,7 +45,7 @@ Also check that npm came with it:
 npm --version
 ```
 
-You should see something like `10.x.x`. If both commands print a version, you're ready. ✅
+You should see something like `10.x.x`. If both commands print a version, you're ready.
 
 ---
 
@@ -105,7 +105,7 @@ You'll see something like:
   ➜  Local:   http://localhost:5173/
 ```
 
-Now open your browser and go to **http://localhost:5173/**. You should see the ALBAN TV homepage! 🎉
+Now open your browser and go to **http://localhost:5173/**. You should see the ALBAN TV homepage!
 
 - Leave this terminal window open while you work — close it (press `Ctrl + C`) when you want to stop the site.
 - **Hot reload:** keep the site open in your browser, edit a file, save it, and the page updates by itself. No refresh needed.
@@ -159,7 +159,7 @@ alban-tv/
 │   ├── robots.txt       #   Tells search engines what to read
 │   └── sitemap.xml      #   Tells search engines where the pages are
 ├── src/                 # The code that builds the site
-│   ├── content.js       # ⭐ Edit ALL text here
+│   ├── content.js       #   Edit ALL text here
 │   ├── main.jsx         # The starting point
 │   ├── App.jsx          # Puts all the sections together
 │   ├── index.css        # All the styling (colours, sizes, layout)
@@ -341,7 +341,7 @@ If you'd rather not use Actions:
 
 **"npm install" is slow** — First time is the slowest. It only downloads once.
 
-**The page refreshes on its own** — That's hot reload doing its job. 😄
+**The page refreshes on its own** — That's hot reload doing its job.
 
 **"port 5173 already in use"** — Another project is using the same port. Close the other one, or continue — Vite will offer another port number automatically.
 
