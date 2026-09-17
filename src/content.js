@@ -99,7 +99,7 @@ export const contact = {
   email: 'alban.tv.2@gmail.com',
   phones: [
     { number: '0748 611 252', href: 'tel:+256748611252' },
-    { number: '0765 858 515', href: 'tel:+256765858515' },
+    { number: '0769858515', href: 'tel:+256769858515' },
   ],
   location: 'Kampala, Uganda',
   socials: [
